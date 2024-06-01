@@ -12,22 +12,19 @@ namespace AspNetCore8Day4.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ContosoUniversityContext _context;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,
+            ContosoUniversityContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<Course> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return _context.Courses.ToList();
         }
     }
 }
