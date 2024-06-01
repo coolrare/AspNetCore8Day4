@@ -19,8 +19,6 @@ public partial class ContosoUniversityContext : DbContext
 
     public virtual DbSet<Enrollment> Enrollments { get; set; }
 
-    public virtual DbSet<MyDeptCourse> MyDeptCourses { get; set; }
-
     public virtual DbSet<OfficeAssignment> OfficeAssignments { get; set; }
 
     public virtual DbSet<Person> People { get; set; }
@@ -41,17 +39,11 @@ public partial class ContosoUniversityContext : DbContext
 
             entity.HasIndex(e => e.DepartmentId, "IX_DepartmentID");
 
-            entity.Property(e => e.CourseId)
-                .HasComment("Unique identifier for the course.")
-                .HasColumnName("CourseID");
-            entity.Property(e => e.Credits).HasComment("The number of credits assigned to the course.");
+            entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.DepartmentId)
                 .HasDefaultValue(1)
-                .HasComment("The ID of the department to which the course belongs.")
                 .HasColumnName("DepartmentID");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasComment("The title of the course.");
+            entity.Property(e => e.Title).HasMaxLength(50);
 
             entity.HasOne(d => d.Department).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.DepartmentId)
@@ -121,16 +113,6 @@ public partial class ContosoUniversityContext : DbContext
             entity.HasOne(d => d.Student).WithMany(p => p.Enrollments)
                 .HasForeignKey(d => d.StudentId)
                 .HasConstraintName("FK_dbo.Enrollment_dbo.Person_StudentID");
-        });
-
-        modelBuilder.Entity<MyDeptCourse>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("MyDeptCourses");
-
-            entity.Property(e => e.DepartmentName).HasMaxLength(50);
-            entity.Property(e => e.Title).HasMaxLength(50);
         });
 
         modelBuilder.Entity<OfficeAssignment>(entity =>

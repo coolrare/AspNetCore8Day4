@@ -7,24 +7,12 @@ namespace AspNetCore8Day4.Models;
 
 public partial class Course
 {
-    /// <summary>
-    /// Unique identifier for the course.
-    /// </summary>
     public int CourseId { get; set; }
 
-    /// <summary>
-    /// The title of the course.
-    /// </summary>
     public string Title { get; set; }
 
-    /// <summary>
-    /// The number of credits assigned to the course.
-    /// </summary>
     public int Credits { get; set; }
 
-    /// <summary>
-    /// The ID of the department to which the course belongs.
-    /// </summary>
     public int DepartmentId { get; set; }
 
     public virtual Department Department { get; set; }

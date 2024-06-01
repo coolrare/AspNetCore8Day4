@@ -16,3 +16,15 @@ Accept: application/json
 
 GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetMyDeptCourses?q=Git
 Accept: application/json
+
+###
+
+
+GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetMyDeptCourses2?q=Git
+Accept: application/json
+
+###
+
+
+GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetCourseWithPerson
+Accept: application/json
