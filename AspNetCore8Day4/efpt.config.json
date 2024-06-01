@@ -39,6 +39,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[MyDeptCourses]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vwCourseStudentCount]",
          "ObjectType": 3
       },

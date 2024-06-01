@@ -1,49 +1,49 @@
-@AspNetCore8Day4_HostAddress = http://localhost:5076
+@HostDomain = http://localhost:5076
 
-GET {{AspNetCore8Day4_HostAddress}}/weatherforecast?q=1;%20DROP%20TABLE%20Course
+GET {{HostDomain}}/weatherforecast?q=Git
 Accept: application/json
 X-Database-Name: ContosoUniversity
 
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/MyDeptCourses?q=Git
+GET {{HostDomain}}/WeatherForecast/MyDeptCourses?q=Git
 Accept: application/json
 
 
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetMyDeptCourses?q=Git
+GET {{HostDomain}}/WeatherForecast/GetMyDeptCourses?q=Git
 Accept: application/json
 
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetMyDeptCourses2?q=Git
+GET {{HostDomain}}/WeatherForecast/GetMyDeptCourses2?q=Git
 Accept: application/json
 
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetCourseWithPerson
+GET {{HostDomain}}/WeatherForecast/GetCourseWithPerson
 Accept: application/json
 
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/api/Courses?pageIndex=4&pageSize=2
+GET {{HostDomain}}/api/Courses?pageIndex=4&pageSize=2
 Accept: application/json
 
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/api/Courses/14
+GET {{HostDomain}}/api/Courses/14
 Accept: application/json
 
 ###
 
-PUT {{AspNetCore8Day4_HostAddress}}/api/Courses/1
+PUT {{HostDomain}}/api/Courses/1
 Content-Type: application/json
 Accept: application/json
 
@@ -55,7 +55,7 @@ Accept: application/json
 
 ###
 
-POST {{AspNetCore8Day4_HostAddress}}/api/courses
+POST {{HostDomain}}/api/courses
 Content-Type: application/json
 
 {
