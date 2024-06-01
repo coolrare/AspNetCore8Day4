@@ -28,3 +28,39 @@ Accept: application/json
 
 GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetCourseWithPerson
 Accept: application/json
+
+###
+
+
+GET {{AspNetCore8Day4_HostAddress}}/api/Courses
+Accept: application/json
+
+###
+
+
+GET {{AspNetCore8Day4_HostAddress}}/api/Courses/14
+Accept: application/json
+
+###
+
+PUT {{AspNetCore8Day4_HostAddress}}/api/Courses/1
+Content-Type: application/json
+Accept: application/json
+
+{
+  "courseId": 1,
+  "title": "Entity Framework 6 開發實戰 456",
+  "credits": 4
+}
+
+###
+
+POST {{AspNetCore8Day4_HostAddress}}/api/courses
+Content-Type: application/json
+
+{
+  "title": "ASP.NET Core 8 開發實戰",
+  "credits": 5
+}
+
+###
