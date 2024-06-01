@@ -22,9 +22,26 @@ namespace AspNetCore8Day4.Controllers
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<Course> Get()
+        public IActionResult Get(string? q)
         {
-            return _context.Courses.ToList();
+            //var data = _context.Courses.Where(c => c.Title.Contains("Git"));
+
+            var data = from c in _context.Courses
+                       join d in _context.Departments on c.DepartmentId equals d.DepartmentId
+                       where
+                        d.StartDate.Date == DateTime.Parse("2015-03-21")
+                       select new
+                       {
+                           c.CourseId,
+                           c.Title,
+                           c.Credits,
+                           DepartmentName = d.Name
+                       };
+
+            if (!string.IsNullOrEmpty(q))
+                data = data.Where(c => c.Title.StartsWith(q) || c.Title.EndsWith(q));
+
+            return Ok(data);
         }
     }
 }

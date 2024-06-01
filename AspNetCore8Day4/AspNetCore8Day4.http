@@ -1,6 +1,6 @@
 @AspNetCore8Day4_HostAddress = http://localhost:5076
 
-GET {{AspNetCore8Day4_HostAddress}}/weatherforecast/
+GET {{AspNetCore8Day4_HostAddress}}/weatherforecast?q=1;%20DROP%20TABLE%20Course
 Accept: application/json
 X-Database-Name: ContosoUniversity
 
