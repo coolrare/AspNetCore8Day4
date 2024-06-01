@@ -5,3 +5,14 @@ Accept: application/json
 X-Database-Name: ContosoUniversity
 
 ###
+
+
+GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/MyDeptCourses?q=Git
+Accept: application/json
+
+
+###
+
+
+GET {{AspNetCore8Day4_HostAddress}}/WeatherForecast/GetMyDeptCourses?q=Git
+Accept: application/json

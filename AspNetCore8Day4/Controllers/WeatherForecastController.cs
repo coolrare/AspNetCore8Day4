@@ -43,5 +43,29 @@ namespace AspNetCore8Day4.Controllers
 
             return Ok(data);
         }
+
+
+        // GET: WeatherForecast/MyDeptCourses
+        [HttpGet("MyDeptCourses", Name = "GetMyDeptCourses")]
+        public IActionResult GetMyDeptCourses(string? q)
+        {
+            var data = from c in _context.MyDeptCourses
+                       select c;
+
+            if (!string.IsNullOrEmpty(q))
+                data = data.Where(c => c.Title.StartsWith(q) || c.Title.EndsWith(q));
+
+            return Ok(data);
+        }
+
+
+        // GET: WeatherForecast/MyDeptCourses
+        [HttpGet("GetMyDeptCourses", Name = "GetMyDeptCoursesSP")]
+        public async Task<IActionResult> GetMyDeptCoursesSPAsync(string? q)
+        {
+            var data = await _context.GetProcedures().GetMyDeptCoursesAsync(q);
+
+            return Ok(data);
+        }
     }
 }

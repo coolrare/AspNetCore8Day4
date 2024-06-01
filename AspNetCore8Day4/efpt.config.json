@@ -39,6 +39,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[MyDeptCourses]",
+         "ObjectType": 3
+      },
+      {
          "Name": "[dbo].[vwCourseStudentCount]",
          "ObjectType": 3
       },
@@ -49,6 +53,10 @@
       {
          "Name": "[dbo].[vwDepartmentCourseCount]",
          "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[GetMyDeptCourses]",
+         "ObjectType": 1
       }
    ],
    "UiHint": null,
