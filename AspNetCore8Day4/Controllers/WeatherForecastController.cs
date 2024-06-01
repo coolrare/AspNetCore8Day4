@@ -59,40 +59,40 @@ namespace AspNetCore8Day4.Controllers
         }
 
         // GET: WeatherForecast/MyDeptCourses
-        //[HttpGet("GetMyDeptCourses", Name = "GetMyDeptCoursesSP")]
-        //public async Task<IActionResult> GetMyDeptCoursesSPAsync(string? q)
-        //{
-        //    var data = await _context.GetProcedures().GetMyDeptCoursesAsync(q);
+        [HttpGet("GetMyDeptCourses", Name = "GetMyDeptCoursesSP")]
+        public async Task<IActionResult> GetMyDeptCoursesSPAsync(string? q)
+        {
+            var data = await _context.GetProcedures().GetMyDeptCoursesAsync(q);
 
-        //    return Ok(data);
-        //}
+            return Ok(data);
+        }
 
-        //[HttpGet("GetMyDeptCourses2", Name = "GetMyDeptCoursesSP2")]
-        //public async Task<IActionResult> GetMyDeptCoursesSP2Async(string? q)
-        //{
-        //    var query = $"""
-        //        SELECT [c].[CourseID] AS [CourseId], [c].[Title], [c].[Credits], [d].[Name] AS [DepartmentName]
-        //        FROM [Course] AS [c]
-        //        INNER JOIN [Department] AS [d] ON [c].[DepartmentID] = [d].[DepartmentID]
-        //        WHERE [c].[Title] LIKE '%{q}%'
-        //        """;
+        [HttpGet("GetMyDeptCourses2", Name = "GetMyDeptCoursesSP2")]
+        public async Task<IActionResult> GetMyDeptCoursesSP2Async(string? q)
+        {
+            var query = $"""
+                SELECT [c].[CourseID] AS [CourseId], [c].[Title], [c].[Credits], [d].[Name] AS [DepartmentName]
+                FROM [Course] AS [c]
+                INNER JOIN [Department] AS [d] ON [c].[DepartmentID] = [d].[DepartmentID]
+                WHERE [c].[Title] LIKE '%{q}%'
+                """;
 
-        //    //if (!string.IsNullOrEmpty(q))
-        //    //{
-        //    //    query += $" WHERE Title LIKE '%{q}%'";
-        //    //}
+            //if (!string.IsNullOrEmpty(q))
+            //{
+            //    query += $" WHERE Title LIKE '%{q}%'";
+            //}
 
-        //    var data1 = await _context.MyDeptCourses.FromSqlRaw(query).ToListAsync();
+            var data1 = await _context.MyDeptCourses.FromSqlRaw(query).ToListAsync();
 
-        //    var data2 = await _context.MyDeptCourses.FromSql($"""
-        //        SELECT [c].[CourseID] AS [CourseId], [c].[Title], [c].[Credits], [d].[Name] AS [DepartmentName]
-        //        FROM [Course] AS [c]
-        //        INNER JOIN [Department] AS [d] ON [c].[DepartmentID] = [d].[DepartmentID]
-        //        WHERE [c].[Title] LIKE '%{q}%'
-        //        """).ToListAsync();
+            var data2 = await _context.MyDeptCourses.FromSql($"""
+                SELECT [c].[CourseID] AS [CourseId], [c].[Title], [c].[Credits], [d].[Name] AS [DepartmentName]
+                FROM [Course] AS [c]
+                INNER JOIN [Department] AS [d] ON [c].[DepartmentID] = [d].[DepartmentID]
+                WHERE [c].[Title] LIKE {"%" + q + "%"}
+                """).ToListAsync();
 
-        //    return Ok(data2);
-        //}
+            return Ok(data2);
+        }
 
         // Get Single Course with Person
         [HttpGet("GetCourseWithPerson", Name = "GetCourseWithPerson")]

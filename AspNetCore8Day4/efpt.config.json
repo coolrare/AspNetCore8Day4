@@ -53,6 +53,10 @@
       {
          "Name": "[dbo].[vwDepartmentCourseCount]",
          "ObjectType": 3
+      },
+      {
+         "Name": "[dbo].[GetMyDeptCourses]",
+         "ObjectType": 1
       }
    ],
    "UiHint": null,
