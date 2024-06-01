@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AspNetCore8Day4.Models;
 using AspNetCore8Day4.Models.Dto;
+using System.Drawing.Printing;
 
 namespace AspNetCore8Day4.Controllers
 {
@@ -23,9 +24,30 @@ namespace AspNetCore8Day4.Controllers
 
         // GET: api/Courses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        public async Task<IActionResult> GetCourses(int pageIndex = 1, int pageSize = 2)
         {
-            return await _context.Courses.ToListAsync();
+            // 1. 一定要先排序
+            var data = _context.Courses.OrderBy(c => c.CourseId).AsQueryable();
+
+            // 2. 計算總筆數
+            var total = await data.CountAsync();
+
+            // 3. 計算總頁數
+            var totalPages = (int)Math.Ceiling(total / (double)pageSize);
+
+            // 4. 取得指定頁數的資料
+            var courses = await data
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // 5. 回傳資料
+            return Ok(new
+            {
+                Total = total,
+                TotalPages = totalPages,
+                Data = courses
+            });
         }
 
         // GET: api/Courses/5

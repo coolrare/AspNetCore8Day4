@@ -32,7 +32,7 @@ Accept: application/json
 ###
 
 
-GET {{AspNetCore8Day4_HostAddress}}/api/Courses
+GET {{AspNetCore8Day4_HostAddress}}/api/Courses?pageIndex=4&pageSize=2
 Accept: application/json
 
 ###
