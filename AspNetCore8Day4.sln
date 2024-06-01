@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore8Day4", "AspNetCore8Day4\AspNetCore8Day4.csproj", "{126D3E00-7947-4FE6-8776-9BF13DE7E99C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCore8Day4", "AspNetCore8Day4\AspNetCore8Day4.csproj", "{126D3E00-7947-4FE6-8776-9BF13DE7E99C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "方案項目", "方案項目", "{DFD9C080-4CB3-442E-84F5-083C89F20BD3}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
