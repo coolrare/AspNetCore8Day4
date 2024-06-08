@@ -83,6 +83,11 @@ namespace AspNetCore8Day4.Controllers
 
             var courseToUpdate = await _context.Courses.FindAsync(id);
 
+            if (courseToUpdate == null)
+            {
+                return NotFound();
+            }
+
             courseToUpdate.Title = course.Title;
             courseToUpdate.Credits = course.Credits;
 
