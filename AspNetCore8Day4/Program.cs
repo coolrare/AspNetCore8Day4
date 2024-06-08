@@ -1,3 +1,5 @@
+using AspNetCore8Day4.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,7 +30,11 @@ builder.Services.AddDbContext<ContosoUniversityContext>(
 //        );
 //});
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    //options.Filters.Add<記錄執行時間Attribute>();
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

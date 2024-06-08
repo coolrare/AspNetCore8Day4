@@ -10,6 +10,7 @@
         "tags": [
           "Courses"
         ],
+        "operationId": "取得課程資訊",
         "parameters": [
           {
             "name": "pageIndex",
@@ -32,7 +33,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedCourse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedCourse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedCourse"
+                }
+              }
+            }
           }
         }
       },
@@ -809,6 +827,27 @@
           },
           "instructor": {
             "$ref": "#/components/schemas/Person"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagedCourse": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CourseRead"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

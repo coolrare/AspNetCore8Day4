@@ -1,4 +1,6 @@
-﻿namespace AspNetCore8Day4.Models.Dto;
+﻿using Newtonsoft.Json;
+
+namespace AspNetCore8Day4.Models.Dto;
 
 public class CourseRead
 {

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AspNetCore8Day4.Models;
 using AspNetCore8Day4.Models.Dto;
 using System.Drawing.Printing;
+using AspNetCore8Day4.Filters;
 
 namespace AspNetCore8Day4.Controllers
 {
@@ -23,7 +24,8 @@ namespace AspNetCore8Day4.Controllers
         }
 
         // GET: api/Courses
-        [HttpGet]
+        [HttpGet(Name = "取得課程資訊")]
+        [ProducesResponseType<PagedCourse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCourses(int pageIndex = 1, int pageSize = 2)
         {
             // 1. 一定要先排序
@@ -35,19 +37,29 @@ namespace AspNetCore8Day4.Controllers
             // 3. 計算總頁數
             var totalPages = (int)Math.Ceiling(total / (double)pageSize);
 
+            if (totalPages > 0)
+            {
+                throw new Exception("ERROR");
+            }
+
             // 4. 取得指定頁數的資料
             var courses = await data
+                .Select(c => new CourseRead()
+                {
+                    CourseId = c.CourseId,
+                    Title = c.Title,
+                    Credits = c.Credits
+                })
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             // 5. 回傳資料
-            return Ok(new
-            {
-                Total = total,
-                TotalPages = totalPages,
-                Data = courses
-            });
+            return Ok(new PagedCourse(
+                total,
+                totalPages,
+                courses
+            ));
         }
 
         // GET: api/Courses/5
@@ -55,8 +67,10 @@ namespace AspNetCore8Day4.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
+        [記錄執行時間]
         public async Task<ActionResult<CourseRead>> GetCourse(int id)
         {
+            //HttpContext.Request.Headers.TryGetValue("Accept", out var accept);
             var course = await _context.Courses.FindAsync(id);
 
             if (course == null)
@@ -74,7 +88,9 @@ namespace AspNetCore8Day4.Controllers
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPost("")]
+        [HttpPost("{id}")]
+        [HttpPost("{id}:update")]
         public async Task<IActionResult> PutCourse(int id, CourseUpdate course)
         {
             if (id != course.CourseId)
@@ -165,9 +181,88 @@ namespace AspNetCore8Day4.Controllers
             return NoContent();
         }
 
+        // 寫一個API可以回傳Excel檔案
+        [HttpGet("ExportExcel")]
+        public IActionResult ExportExcel()
+        {
+            var stream = new System.IO.MemoryStream();
+            //using (var package = new OfficeOpenXml.ExcelPackage(stream))
+            //{
+            //    var worksheet = package.Workbook.Worksheets.Add("課程資訊");
+
+            //    worksheet.Cells[1, 1].Value = "CourseId";
+            //    worksheet.Cells[1, 2].Value = "Title";
+            //    worksheet.Cells[1, 3].Value = "Credits";
+
+            //    var courses = _context.Courses.AsNoTracking().ToList();
+
+            //    for (int i = 0; i < courses.Count; i++)
+            //    {
+            //        worksheet.Cells[i + 2, 1].Value = courses[i].CourseId;
+            //        worksheet.Cells[i + 2, 2].Value = courses[i].Title;
+            //        worksheet.Cells[i + 2, 3].Value = courses[i].Credits;
+            //    }
+
+            //    package.Save();
+            //}
+
+            stream.Position = 0;
+
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "課程資訊.xlsx");
+        }
+
+        // 撰寫一份使用 IAsyncEnumerable <T> 的範例 API
+        [HttpGet("GetCoursesAsyncEnumerable")]
+        public async IAsyncEnumerable<CourseRead> GetCoursesAsyncEnumerable()
+        {
+            var courses = _context.Courses.AsNoTracking().OrderBy(c => c.CourseId).AsAsyncEnumerable();
+
+            await foreach (var course in courses)
+            {
+                await Task.Delay(200);
+
+                //await Task.Yield();
+
+                yield return new CourseRead()
+                {
+                    CourseId = course.CourseId,
+                    Title = course.Title,
+                    Credits = course.Credits
+                };
+            }
+        }
+
+
         private bool CourseExists(int id)
         {
             return _context.Courses.Any(e => e.CourseId == id);
+        }
+    }
+
+    internal class PagedCourse
+    {
+        public int Total { get; }
+        public int TotalPages { get; }
+        public List<CourseRead> Data { get; }
+
+        public PagedCourse(int total, int totalPages, List<CourseRead> data)
+        {
+            Total = total;
+            TotalPages = totalPages;
+            Data = data;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is PagedCourse other &&
+                   Total == other.Total &&
+                   TotalPages == other.TotalPages &&
+                   EqualityComparer<List<CourseRead>>.Default.Equals(Data, other.Data);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Total, TotalPages, Data);
         }
     }
 }

@@ -32,7 +32,7 @@ Accept: application/json
 ###
 
 
-GET {{HostDomain}}/api/Courses?pageIndex=4&pageSize=2
+GET {{HostDomain}}/api/Courses?pageIndex=1&pageSize=20
 Accept: application/json
 
 ###
@@ -43,12 +43,18 @@ Accept: application/json
 
 ###
 
-PUT {{HostDomain}}/api/Courses/1
+
+GET {{HostDomain}}/api/Courses/GetCoursesAsyncEnumerable
+Accept: application/json
+
+###
+
+POST {{HostDomain}}/api/Courses
 Content-Type: application/json
 Accept: application/json
 
 {
-  "courseId": 1,
+  "courseId": 0,
   "title": "Entity Framework 6 開發實戰 456",
   "credits": 5
 }
