@@ -27,7 +27,7 @@ namespace AspNetCore8Day4.Controllers
         public async Task<IActionResult> GetCourses(int pageIndex = 1, int pageSize = 2)
         {
             // 1. 一定要先排序
-            var data = _context.Courses.OrderBy(c => c.CourseId).AsQueryable();
+            var data = _context.Courses.AsNoTracking().OrderBy(c => c.CourseId).AsQueryable();
 
             // 2. 計算總筆數
             var total = await data.CountAsync();
@@ -91,6 +91,8 @@ namespace AspNetCore8Day4.Controllers
             courseToUpdate.Title = course.Title;
             courseToUpdate.Credits = course.Credits;
 
+            //courseToUpdate.DateModified = DateTime.Now;
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -140,6 +142,17 @@ namespace AspNetCore8Day4.Controllers
 
             _context.Courses.Remove(course);
             await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        // 幫我建立一個 POST method，可以批次更新 Course 的 Credits 欄位，所有的值要全部 +1
+        [HttpPost("BatchUpdateCredits")]
+        public IActionResult BatchUpdateCredits()
+        {
+            _context.Courses
+                .Where(c => c.CourseId < 2)
+                .ExecuteUpdate(setter => setter.SetProperty(c => c.Credits, c => c.Credits - 1));
 
             return NoContent();
         }

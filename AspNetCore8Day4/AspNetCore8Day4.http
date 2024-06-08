@@ -50,7 +50,7 @@ Accept: application/json
 {
   "courseId": 1,
   "title": "Entity Framework 6 開發實戰 456",
-  "credits": 4
+  "credits": 5
 }
 
 ###
@@ -62,5 +62,31 @@ Content-Type: application/json
   "title": "ASP.NET Core 8 開發實戰",
   "credits": 5
 }
+
+###
+
+GET {{HostDomain}}/api/Departments
+Accept: application/json
+
+###
+
+GET {{HostDomain}}/api/Departments/1
+Accept: application/json
+
+###
+
+GET {{HostDomain}}/api/Departments/1/Courses
+Accept: application/json
+
+###
+
+
+GET {{HostDomain}}/api/Courses
+Accept: application/json
+
+###
+
+POST {{HostDomain}}/api/Courses/BatchUpdateCredits
+Accept: application/json
 
 ###
