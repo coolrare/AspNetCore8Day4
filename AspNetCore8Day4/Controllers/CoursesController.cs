@@ -9,11 +9,17 @@ using AspNetCore8Day4.Models;
 using AspNetCore8Day4.Models.Dto;
 using System.Drawing.Printing;
 using AspNetCore8Day4.Filters;
+using AspNetCore8Day4.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace AspNetCore8Day4.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[Authorize(Roles = "Users", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Roles = "Users", AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
     public class CoursesController : ControllerBase
     {
         private readonly ContosoUniversityContext _context;
@@ -23,11 +29,14 @@ namespace AspNetCore8Day4.Controllers
             _context = context;
         }
 
-        // GET: api/Courses
         [HttpGet(Name = "取得課程資訊")]
         [ProducesResponseType<PagedCourse>(StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCourses(int pageIndex = 1, int pageSize = 2)
         {
+            // User.Identity?.IsAuthenticated;
+            // var name = User.Identity?.Name;
+
+
             // 1. 一定要先排序
             var data = _context.Courses.AsNoTracking().OrderBy(c => c.CourseId).AsQueryable();
 
@@ -39,7 +48,7 @@ namespace AspNetCore8Day4.Controllers
 
             if (totalPages > 0)
             {
-                throw new Exception("ERROR");
+                throw new GetDataException("ERROR");
             }
 
             // 4. 取得指定頁數的資料
@@ -88,7 +97,7 @@ namespace AspNetCore8Day4.Controllers
 
         // PUT: api/Courses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("")]
+        //[HttpPost("")]
         [HttpPost("{id}")]
         [HttpPost("{id}:update")]
         public async Task<IActionResult> PutCourse(int id, CourseUpdate course)
