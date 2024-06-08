@@ -51,8 +51,11 @@ namespace AspNetCore8Day4.Controllers
         }
 
         // GET: api/Courses/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse(int id)
+        [HttpGet("{id}", Name = "GetCourseById")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult<CourseRead>> GetCourse(int id)
         {
             var course = await _context.Courses.FindAsync(id);
 
@@ -61,7 +64,12 @@ namespace AspNetCore8Day4.Controllers
                 return NotFound();
             }
 
-            return course;
+            return new CourseRead()
+            {
+                CourseId = course.CourseId,
+                Title = course.Title,
+                Credits = course.Credits
+            };
         }
 
         // PUT: api/Courses/5
